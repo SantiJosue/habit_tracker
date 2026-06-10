@@ -21,8 +21,8 @@ export const registerUser = async (req, res, next) => {
         const userExist = await User.findOne({ email })
 
         if(userExist) {
-            return res.status(401).json({
-                message: 'Credenciales inválidas'
+            return res.status(409).json({
+                message: 'El email ya esta registrado'
             })
         }
 
@@ -36,7 +36,11 @@ export const registerUser = async (req, res, next) => {
 
         res.status(201).json({
             message: 'Usuario registrado correctamente',
-            user
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
         })
     } catch (error) {
         next(error)
