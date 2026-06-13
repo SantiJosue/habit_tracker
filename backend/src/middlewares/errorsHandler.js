@@ -3,12 +3,15 @@ export const errorHandler = (err, req, res, next) => {
         const errors = Object.values(err.errors).map(err => err.message)
         
         return res.status(400).json({
-            message: 'Error de validación',
-            errors
+            success: false,
+            message: 'Datos inválidos',
+            data: errors
         })
     }
 
     return res.status(500).json({
-        message: err.message
-    }) 
+        success: false,
+        message: err.message,
+        data: null
+    })
 }   

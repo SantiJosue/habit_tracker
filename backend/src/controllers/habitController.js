@@ -3,7 +3,11 @@ import Habit from "../models/HabitModel.js"
 export const getHabit = async (req, res, next) => {
     try {
         const habit = req.habit
-        res.json({habit})
+        return res.json({
+            success: true,
+            message: 'Hábito obtenido correctamente',
+            data: habit
+        })
         } catch (error) {
             next(error)
         }
@@ -13,18 +17,25 @@ export const createHabit = async (req, res, next) => {
     try {
         if(Object.keys(req.body).length === 0) {
             return res.status(400).json({
-                message: 'Datos inválidos'
+                success: false,
+                message: 'Datos inválidos',
+                data: null
             })
         }
 
         const { userId } = req.user
         const { name, frequency } = req.body
-        await Habit.create({
+        const habit = await Habit.create({
             name,
             frequency,
             user: userId
         })
-        res.status(201).json({ message: 'Habito creado correctamente' })
+
+        return res.status(201).json({
+            success: true,
+            message: 'Hábito creado correctamente',
+            data: habit
+        })
     } catch (error) {
         next(error)
     }
@@ -34,7 +45,11 @@ export const getHabits = async (req, res, next) => {
     try {
         const { userId } = req.user
         const habits = await Habit.find({user: userId})
-        res.json(habits)
+        return res.json({
+            success: true,
+            message: 'Hábitos obtenidos correctamente',
+            data: habits
+        })
     } catch (error) {
         next(error)
     }
@@ -44,7 +59,9 @@ export const editHabit = async (req, res, next) => {
     try {
         if(Object.keys(req.body).length === 0) {
             return res.status(400).json({
-                message: 'Datos inválidos'
+                success: false,
+                message: 'Datos inválidos',
+                data: null
             })
         }
 
@@ -55,8 +72,9 @@ export const editHabit = async (req, res, next) => {
         await habit.save()
 
         res.json({
-            message: 'Habito actualizado correctamente',
-            habit
+            success: true,
+            message: 'Hábito actualizado correctamente',
+            data: habit
         })
 
     } catch (error) {
@@ -66,12 +84,14 @@ export const editHabit = async (req, res, next) => {
 
 export const removeHabit = async (req, res, next) => {
     try {
-        const habit = req.habit
+        const deletedHabit = req.habit
 
-        await habit.deleteOne()
+        await deletedHabit.deleteOne()
         
-        res.json({
-            message: 'Habito eliminado correctamente'
+        return res.status(204).json({
+            success: true,
+            message: 'Hábito eliminado correctamente',
+            data: deletedHabit
         })
     } catch (error) {
         next(error)
