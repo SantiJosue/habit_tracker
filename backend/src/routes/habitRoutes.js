@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createHabit, editHabit, getHabit, getHabits, removeHabit } from "../controllers/habitController.js";
+import { completeHabit, createHabit, editHabit, getHabit, getHabits, removeHabit } from "../controllers/habitController.js";
 import { loadHabit } from "../middlewares/loadHabit.js";
 import { checkHabitOwnership } from "../middlewares/checkHabitOwnership.js";
 
@@ -13,5 +13,6 @@ router.route('/:id')
     .get(loadHabit, checkHabitOwnership, getHabit)
     .put(loadHabit, checkHabitOwnership, editHabit)
     .delete(loadHabit, checkHabitOwnership, removeHabit)
+    .patch(loadHabit, checkHabitOwnership, completeHabit)
 
 export default router

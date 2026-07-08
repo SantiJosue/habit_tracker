@@ -79,7 +79,6 @@ export const loginUser = async (req, res, next) => {
             })
         }
 
-        console.log(userExist._id)
         const token = generateToken(userExist._id)
 
         res.json({

@@ -4,7 +4,4 @@ const corsOptions = {
     credentials: true
 }
 
-console.log(corsOptions)
-console.log(JSON.stringify(process.env.FRONTEND_URL))
-
 export default corsOptions

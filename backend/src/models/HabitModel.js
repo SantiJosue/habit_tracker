@@ -7,24 +7,30 @@ export const habitSchema = new Schema({
         minlength: [3, 'El nombre debe tener al menos 3 caracteres'],
         trim: true
     },
+
     frequency: {
         type: String,
         required: [true, 'La frecuencia es obligatoria'],
         enum: ['daily', 'weekly']
     },
+
     streak: {
         type: Number,
         default: 0
     },
-    completedToday: {
-        type: Boolean,
-        default: false
+
+    lastCompletedAt: {
+        type: Date,
+        default: null
     },
+
     user: {
         type: Types.ObjectId,
         ref: 'User'
     }
-}, {timestamps: true})
+
+}, { timestamps: true })
 
 const Habit = mongoose.model('Habit', habitSchema)
+
 export default Habit

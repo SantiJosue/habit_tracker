@@ -10,9 +10,9 @@ export const loadHabit = async (req, res, next) => {
                 message: 'ID inválido'
             })
         }
-
+        
         const habit = await Habit.findById(id)
-                
+
         if(!habit) {
             return res.status(404).json({
                 message: 'Habito no encontrado'
